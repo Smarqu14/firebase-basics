@@ -1,3 +1,4 @@
+//auth
 const auth = firebase.auth();
 
 const whenSignedIn = document.getElementById("whenSignedIn");
@@ -13,7 +14,7 @@ const provider = new firebase.auth.GoogleAuthProvider();
 signInBtn.onclick = () => auth.signInWithPopup(provider);
 
 signOutBtn.onclick = () => auth.signOut();
-console.log(auth);
+
 auth.onAuthStateChanged((user) => {
   if (user) {
     //signed in
@@ -25,5 +26,46 @@ auth.onAuthStateChanged((user) => {
     whenSignedIn.hidden = true;
     whenSignedOut.hidden = false;
     userDetails.innerHTML = "";
+  }
+});
+
+///// Firestore /////
+
+const db = firebase.firestore();
+
+const createThing = document.getElementById("createThing");
+const thingsList = document.getElementById("thingsList");
+
+let thingsRef;
+let unsubscribe;
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    // Database Reference
+    thingsRef = db.collection("cosas");
+
+    createThing.onclick = () => {
+      const { serverTimestamp } = firebase.firestore.FieldValue;
+
+      thingsRef.add({
+        uid: user.uid,
+        name: faker.commerce.productName(),
+        createdAt: serverTimestamp(),
+      });
+    };
+
+    // Query
+    unsubscribe = thingsRef
+      .where("uid", "==", user.uid)
+      .orderBy("createdAt") // Requires a query
+      .onSnapshot((querySnapshot) => {
+        // Map results to an array of li elements
+
+        const items = querySnapshot.docs.map((doc) => {
+          return `<li>${doc.data().name}</li>`;
+        });
+
+        thingsList.innerHTML = items.join("");
+      });
   }
 });

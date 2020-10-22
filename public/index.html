@@ -38,9 +38,15 @@
       integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
       crossorigin="anonymous"
     />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"
+      integrity="sha512-/seDHxVfh1NvFUscAj8GsHQVZJvr2jjAoYsNL7As2FCaFHUHYIarl3sRCvVlFgyouVNiRgHIebyLKjpgd1SLDw=="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <h1>My awesomne app 🔥</h1>
+    <h1>My Awesome App 🔥</h1>
+
     <section id="whenSignedOut">
       <button id="signInBtn" class="btn btn-primary">
         Sign in with Google
@@ -51,6 +57,18 @@
       <div id="userDetails"></div>
 
       <button id="signOutBtn" class="btn btn-primary">Sign Out</button>
+    </section>
+
+    <hr />
+
+    <section>
+      <h2>My Firestore Things</h2>
+
+      <ul id="thingsList"></ul>
+
+      <button id="createThing" class="btn btn-success">
+        Create Random Thing
+      </button>
     </section>
   </body>
 </html>
